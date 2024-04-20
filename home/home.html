@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InspireSphere</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
+:root {
+  --bg-color: #111314;
+  --box-color: #1a1f22;
+  --title-color: #a6a7ff;
+  --gnBtnColor: #262d31;
+  --selectBtnColor: var(--gnBtnColor); /* Same color as Generate button */
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins";
+}
+
+body {
+  background-color: var(--bg-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+}
+
+.container {
+  background: var(--box-color);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+
+  width: 500px;
+}
+
+.container .title {
+  font-weight: 700;
+  color: var(--title-color);
+  font-size: 2.2rem;
+}
+
+.quote_text {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-top: 20px;
+  color: #dadada;
+}
+
+.gnBtn, .selectBtn, .addQuoteBtn {
+  width: 80%;
+  height: 50px;
+  margin-top: 25px;
+
+  background-color: var(--selectBtnColor); /* Use the same color as Generate button */
+  cursor: pointer;
+
+  outline: none;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+#cog {
+  color: var(--gnBtnColor);
+}
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #333;
+  margin: 20% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.input-container {
+  margin-bottom: 15px;
+}
+
+.input-field {
+  width: calc(100% - 20px); /* Adjust width as needed */
+  height: 40px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.input-btn {
+  width: calc(100% - 20px); /* Adjust width as needed */
+  height: 40px;
+  margin-top: 10px;
+  background-color: var(--gnBtnColor);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.top-links {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+}
+
+.top-links a {
+  margin-right: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.top-links a:hover {
+  text-decoration: underline;
+}
+
+.top-links a{
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.top-links a:hover {
+  color: #a6a7ff;
+  text-decoration: none;
+}
+   </style>
+</head>
+<body>
+    <div class="container">
+      <div class="top-links">
+        <a href="https://www.facebook.com/itsmeinjel.05">Contact us</a>
+        <a href="https://www.facebook.com/itsmeinjel.05">Developer</a>
+      </div>
+      <div class="title">Quote Generator</div>
+      <select id="categorySelect" class="selectBtn" style="text-align: center;"> 
+        <option value="all">All Categories</option>
+        <option value="alone">Alone</option>
+        <option value="amazing">Amazing</option>
+        <option value="anger">Anger</option>
+        <option value="architecture">Architecture</option>
+        <option value="art">Art</option>
+        <option value="attitude">Attitude</option>
+        <option value="beauty">Beauty</option>
+        <option value="best">Best</option>
+        <option value="birthday">Birthday</option>
+        <option value="business">Business</option>
+        <option value="car">Car</option>
+        <option value="change">Change</option>
+        <option value="communication">Communication</option>
+        <option value="computers">Computers</option>
+        <option value="cool">Cool</option>
+        <option value="courage">Courage</option>
+        <option value="dad">Dad</option>
+        <option value="dating">Dating</option>
+        <option value="death">Death</option>
+        <option value="design">Design</option>
+        <option value="dreams">Dreams</option>
+        <option value="education">Education</option>
+        <option value="environmental">Environmental</option>
+        <option value="equality">Equality</option>
+        <option value="experience">Experience</option>
+        <option value="failure">Failure</option>
+        <option value="faith">Faith</option>
+        <option value="family">Family</option>
+        <option value="famous">Famous</option>
+        <option value="fear">Fear</option>
+        <option value="fitness">Fitness</option>
+        <option value="food">Food</option>
+        <option value="forgiveness">Forgiveness</option>
+        <option value="freedom">Freedom</option>
+        <option value="friendship">Friendship</option>
+        <option value="funny">Funny</option>
+        <option value="future">Future</option>
+        <option value="god">God</option>
+        <option value="good">Good</option>
+        <option value="government">Government</option>
+        <option value="graduation">Graduation</option>
+        <option value="great">Great</option>
+        <option value="happiness">Happiness</option>
+        <option value="health">Health</option>
+        <option value="history">History</option>
+        <option value="home">Home</option>
+        <option value="hope">Hope</option>
+        <option value="humor">Humor</option>
+        <option value="imagination">Imagination</option>
+        <option value="inspirational">Inspirational</option>
+        <option value="intelligence">Intelligence</option>
+        <option value="jealousy">Jealousy</option>
+        <option value="knowledge">Knowledge</option>
+        <option value="leadership">Leadership</option>
+        <option value="learning">Learning</option>
+        <option value="legal">Legal</option>
+        <option value="life">Life</option>
+        <option value="love">Love</option>
+        <option value="marriage">Marriage</option>
+        <option value="medical">Medical</option>
+        <option value="men">Men</option>
+        <option value="mom">Mom</option>
+        <option value="money">Money</option>
+        <option value="morning">Morning</option>
+        <option value="movies">Movies</option>
+        <option value="success">Success</option>
+      </select>
+      <div id="quoteContainer" class="quote_text">Quote Generator Please select a category and press the button Generate to get a Quote</div> <!-- Added quoteContainer -->
+      <button onclick="getRandomQuote()" class="gnBtn">Generate <span id="cog">⚙</span></button>
+      <button onclick="openModal()" class="addQuoteBtn">Add own quote</button>
+    </div>
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="input-container">
+          <input type="text" id="ownQuoteInput" class="input-field" placeholder="Enter your own quote">
+        </div>
+        <button onclick="addOwnQuote()" class="input-btn">Add Quote</button>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function getRandomQuote() {
+           var category = document.getElementById("categorySelect").value;
+           if (category === "all") {
+               // Generate a random category
+               var categories = ["alone", "amazing", "anger", "architecture", "art", "attitude", "beauty", "best", "birthday", "business", "car", "change", "communication", "computers", "cool", "courage", "dad", "dating", "death", "design", "dreams", "education", "environmental", "equality", "experience", "failure", "faith", "family", "famous", "fear", "fitness", "food", "forgiveness", "freedom", "friendship", "funny", "future", "god", "good", "government", "graduation", "great", "happiness", "health", "history", "home", "hope", "humor", "imagination", "inspirational", "intelligence", "jealousy", "knowledge", "leadership", "learning", "legal", "life", "love", "marriage", "medical", "men", "mom", "money", "morning", "movies", "success"];
+               category = categories[Math.floor(Math.random() * categories.length)];
+           }
+           if (category === "depression") {
+               displayCustomQuote();
+           } else {
+               $.ajax({
+                   method: 'GET',
+                   url: 'https://api.api-ninjas.com/v1/quotes?category=' + category,
+                   headers: { 'X-Api-Key': '/gr2v58NuKddqcGrAodFag==Vo7zodZxVPiBeMez' },
+                   contentType: 'application/json',
+                   success: function (result) {
+                       displayQuote(result);
+                   },
+                   error: function ajaxError(jqXHR) {
+                       console.error('Error: ', jqXHR.responseText);
+                   }
+               });
+           }
+       }
+
+
+function displayQuote(result) {
+           var quoteText = result[0].quote;
+           document.getElementById("quoteContainer").innerHTML = '<p>' + quoteText + '</p>'; // Corrected target element
+       }
+
+       function displayCustomQuote() {
+           var customQuotes = [
+               "In the midst of winter, I found there was, within me, an invincible summer. - Albert Camus",
+               "The world breaks everyone, and afterward, some are strong at the broken places. - Ernest Hemingway",
+               "When you're going through hell, keep going. - Winston Churchill",
+               "It is during our darkest moments that we must focus to see the light. - Aristotle",
+               "The only way out of the labyrinth of suffering is to forgive. - John Green"
+           ];
+           var randomIndex = Math.floor(Math.random() * customQuotes.length);
+           document.getElementById("quoteContainer").innerHTML = '<p>' + customQuotes[randomIndex] + '</p>'; // Corrected target element
+       }
+
+
+
+     function openModal() {
+       var modal = document.getElementById("myModal");
+       modal.style.display = "block";
+     }
+
+     function closeModal() {
+       var modal = document.getElementById("myModal");
+       modal.style.display = "none";
+     }
+
+     function addOwnQuote() {
+       var ownQuote = document.getElementById("ownQuoteInput").value;
+       if (ownQuote.trim() !== "") {
+         var quoteContainer = document.getElementById("quoteContainer");
+         quoteContainer.innerHTML = '<p>' + ownQuote + '</p>';
+         closeModal();
+       } else {
+         alert("Please enter a quote.");
+       }
+     }
+   </script>
+  </body>
+</html>
